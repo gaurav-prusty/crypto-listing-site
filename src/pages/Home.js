@@ -9,6 +9,10 @@ function Home() {
   const cryptoUrl = `https://api.coinstats.app/public/v1/coins?skip=0&limit=30&currency=USD`;
   let [cryptoArray, setCryptoArray] = useState([]);
   let [sortOrder, setSortOrder] = useState('ASC');
+  let [customClass, setCustomClass] = useState('');
+  let [displaySortIcon, setDisplaySortIcon] = useState(Array(9).fill('none'));
+
+  let headEnum = {'rank': 0, 'name': 1, 'price': 2, 'marketCap': 3, 'volume': 4, 'totalSupply': 5, 'priceChange1h': 6, 'priceChange1d': 7, 'priceChange1w': 8};
 
   function fetchCryptoData(url) {
     axios.get(url)
@@ -31,11 +35,22 @@ function Home() {
   }
 
   function sorter(key) {
+    var temp = Array(9).fill('none');
+    temp[headEnum[key]] = 'block';
+    console.log(temp);
+    setDisplaySortIcon([...temp]);
+
+    
+    
+
+
     if (sortOrder === 'ASC') {
+      setCustomClass("fa-solid fa-sort-down");
       var sortedCryptoArray = [...sortByKey(cryptoArray, key)];
       setCryptoArray(sortedCryptoArray);
       setSortOrder('DSC');
     } else if (sortOrder === 'DSC') {
+      setCustomClass("fa-solid fa-sort-up")
       var sortedCryptoArray = [...sortByKey(cryptoArray, key).reverse()];
       setCryptoArray(sortedCryptoArray);
       setSortOrder('ASC');
@@ -48,15 +63,15 @@ function Home() {
           <table className='crypto-table table'>
             <thead>
               <tr>
-                <th onClick={()=> sorter('rank')}>RANK</th>
-                <th onClick={()=> sorter('name')}>NAME</th>
-                <th onClick={()=> sorter('price')}>PRICE</th>
-                <th onClick={()=> sorter('marketCap')}>MARKET CAP</th>
-                <th onClick={()=> sorter('volume')}>VOLUME</th>
-                <th onClick={()=> sorter('totalSupply')}>SUPPLY</th>
-                <th onClick={()=> sorter('priceChange1h')}>PRICE CHANGE(1h)</th>
-                <th onClick={()=> sorter('priceChange1d')}>PRICE CHANGE(1d)</th>
-                <th onClick={()=> sorter('priceChange1w')}>PRICE CHANGE(1w)</th>
+                <th onClick={()=> sorter('rank')}><i className={customClass} style={{display: displaySortIcon[0]}} ></i> RANK</th>
+                <th onClick={()=> sorter('name')}><i className={customClass} style={{display: displaySortIcon[1]}} ></i>NAME</th>
+                <th onClick={()=> sorter('price')}><i className={customClass} style={{display: displaySortIcon[2]}} ></i>PRICE</th>
+                <th onClick={()=> sorter('marketCap')}><i className={customClass} style={{display: displaySortIcon[3]}} ></i>MARKET CAP</th>
+                <th onClick={()=> sorter('volume')}><i className={customClass} style={{display: displaySortIcon[4]}} ></i>VOLUME</th>
+                <th onClick={()=> sorter('totalSupply')}><i className={customClass} style={{display: displaySortIcon[5]}} ></i>SUPPLY</th>
+                <th onClick={()=> sorter('priceChange1h')}><i className={customClass} style={{display: displaySortIcon[6]}} ></i>PRICE CHANGE(1h)</th>
+                <th onClick={()=> sorter('priceChange1d')}><i className={customClass} style={{display: displaySortIcon[7]}} ></i>PRICE CHANGE(1d)</th>
+                <th onClick={()=> sorter('priceChange1w')}><i className={customClass} style={{display: displaySortIcon[8]}} ></i>PRICE CHANGE(1w)</th>
               </tr>
             </thead>
             <tbody>
