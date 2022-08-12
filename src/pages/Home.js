@@ -8,10 +8,10 @@ function Home() {
 
   const cryptoUrl = `https://api.coinstats.app/public/v1/coins?skip=0&limit=30&currency=USD`;
   let [cryptoArray, setCryptoArray] = useState([]);
-
+  let [sortOrder, setSortOrder] = useState('ASC');
 
   function fetchCryptoData(url) {
-    axios.get(cryptoUrl)
+    axios.get(url)
     .then(res=> {
         setCryptoArray(res.data.coins)
     })
@@ -19,9 +19,28 @@ function Home() {
 
   useEffect(()=> {
     fetchCryptoData(cryptoUrl)
-    }, [])
+    }, []);
 
-  //cryptoArray.map(coin=> console.log(coin));
+  function sortByKey(array, key) {
+    return array.sort((a, b)=>
+  {
+    var x = a[key];
+    var y = b[key];
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+  });
+  }
+
+  function sorter(key) {
+    if (sortOrder === 'ASC') {
+      var sortedCryptoArray = [...sortByKey(cryptoArray, key)];
+      setCryptoArray(sortedCryptoArray);
+      setSortOrder('DSC');
+    } else if (sortOrder === 'DSC') {
+      var sortedCryptoArray = [...sortByKey(cryptoArray, key).reverse()];
+      setCryptoArray(sortedCryptoArray);
+      setSortOrder('ASC');
+    }
+  }
 
     return (
         <div className='home'>
@@ -29,15 +48,15 @@ function Home() {
           <table className='crypto-table table'>
             <thead>
               <tr>
-                <th>RANK</th>
-                <th>NAME</th>
-                <th>PRICE</th>
-                <th>MARKET CAP</th>
-                <th>VOLUME</th>
-                <th>SUPPLY</th>
-                <th>PRICE CHANGE (1h)</th>
-                <th>PRICE CHANGE (1d)</th>
-                <th>PRICE CHANGE (1w)</th>
+                <th onClick={()=> sorter('rank')}>RANK</th>
+                <th onClick={()=> sorter('name')}>NAME</th>
+                <th onClick={()=> sorter('price')}>PRICE</th>
+                <th onClick={()=> sorter('marketCap')}>MARKET CAP</th>
+                <th onClick={()=> sorter('volume')}>VOLUME</th>
+                <th onClick={()=> sorter('totalSupply')}>SUPPLY</th>
+                <th onClick={()=> sorter('priceChange1h')}>PRICE CHANGE(1h)</th>
+                <th onClick={()=> sorter('priceChange1d')}>PRICE CHANGE(1d)</th>
+                <th onClick={()=> sorter('priceChange1w')}>PRICE CHANGE(1w)</th>
               </tr>
             </thead>
             <tbody>

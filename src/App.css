@@ -58,6 +58,8 @@ body {
 }
 
 thead {
+  user-select: none;
+  cursor: pointer;
   background-color: #01396a;
   color: whitesmoke;
   font-weight: bold;
