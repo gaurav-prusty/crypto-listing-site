@@ -119,3 +119,11 @@ tbody tr {
 .red {
   color: red;
 }
+
+.checked {
+  color: orange;
+}
+
+div i {
+  margin-right: 0.5rem;
+}

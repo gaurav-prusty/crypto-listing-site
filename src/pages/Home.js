@@ -4,9 +4,14 @@ import axios from 'axios';
 import TableItem from '../components/TableItem';
 
 
+export let fixedCryptoArray = [];
+
 function Home() {
 
   const cryptoUrl = `https://api.coinstats.app/public/v1/coins?skip=0&limit=30&currency=USD`;
+
+  
+
   let [cryptoArray, setCryptoArray] = useState([]);
   let [sortOrder, setSortOrder] = useState('ASC');
   let [customClass, setCustomClass] = useState('');
@@ -17,32 +22,28 @@ function Home() {
   function fetchCryptoData(url) {
     axios.get(url)
     .then(res=> {
-        setCryptoArray(res.data.coins)
+        fixedCryptoArray = res.data.coins;
+        setCryptoArray(res.data.coins);
     })
   }
 
   useEffect(()=> {
-    fetchCryptoData(cryptoUrl)
+    fetchCryptoData(cryptoUrl);
     }, []);
 
   function sortByKey(array, key) {
     return array.sort((a, b)=>
-  {
-    var x = a[key];
-    var y = b[key];
-    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-  });
-  }
+    {
+      var x = a[key];
+      var y = b[key];
+      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    })
+    }
 
   function sorter(key) {
     var temp = Array(9).fill('none');
     temp[headEnum[key]] = 'block';
-    console.log(temp);
     setDisplaySortIcon([...temp]);
-
-    
-    
-
 
     if (sortOrder === 'ASC') {
       setCustomClass("fa-solid fa-sort-down");
