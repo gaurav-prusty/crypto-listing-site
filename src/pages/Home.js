@@ -9,7 +9,7 @@ export let fixedCryptoArray = [];
 function Home() {
 
   const cryptoUrl = `https://api.coinstats.app/public/v1/coins?skip=0&limit=30&currency=USD`;
-
+  
   let [cryptoArray, setCryptoArray] = useState([]);
   let [sortOrder, setSortOrder] = useState('ASC');
   let [customClass, setCustomClass] = useState('');
@@ -27,7 +27,7 @@ function Home() {
 
   useEffect(()=> {
     fetchCryptoData(cryptoUrl);
-    });
+    }, []);
 
   function sortByKey(array, key) {
     return array.sort((a, b)=>
@@ -50,7 +50,7 @@ function Home() {
       setSortOrder('DSC');
     } else if (sortOrder === 'DSC') {
       setCustomClass("fa-solid fa-sort-up")
-      sortedCryptoArray = [...sortByKey(cryptoArray, key).reverse()];
+      var sortedCryptoArray = [...sortByKey(cryptoArray, key).reverse()];
       setCryptoArray(sortedCryptoArray);
       setSortOrder('ASC');
     }

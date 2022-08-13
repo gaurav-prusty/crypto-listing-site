@@ -16,7 +16,7 @@ function TableItem(props) {
   return (
     <tr>
       <td> <div onClick={()=> setFavourite(props.rank)} className='td-favourite'> <i className={customClass}></i>{props.rank}</div> </td>
-      <td className='name flex-parent'> <img className='crypto-icon' src={props.icon} alt='crypto-icon'/> {props.name}</td>
+      <td className='name flex-parent'> <img className='crypto-icon' src={props.icon} /> {props.name}</td>
       <td>${parseFloat(props.price).toFixed(2)}</td>
       <td>${(Math.abs(props.marketCap) / 1e9).toFixed(2)} B</td>
       <td>${(Math.abs(props.volume) / 1e9).toFixed(2)} B</td>
