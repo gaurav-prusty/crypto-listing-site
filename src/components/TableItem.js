@@ -1,10 +1,7 @@
-import React, { useContext, useState } from 'react';
-import { FavouriteContext } from '../contexts/FavouriteContext';
-import { fixedCryptoArray } from '../pages/Home';
+import React, {  useState } from 'react';
+
 
 function TableItem(props) {
-
-  let {favouriteCryptoArray, setFavouriteCryptoArray} = useContext(FavouriteContext);
 
   let [customClass, setCustomClass] = useState('fa fa-star');
 

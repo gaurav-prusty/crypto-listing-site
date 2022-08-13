@@ -9,9 +9,7 @@ export let fixedCryptoArray = [];
 function Home() {
 
   const cryptoUrl = `https://api.coinstats.app/public/v1/coins?skip=0&limit=30&currency=USD`;
-
   
-
   let [cryptoArray, setCryptoArray] = useState([]);
   let [sortOrder, setSortOrder] = useState('ASC');
   let [customClass, setCustomClass] = useState('');
