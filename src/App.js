@@ -6,8 +6,6 @@ import { useState } from "react";
 
 function App() {
 
-  let [favouriteCryptoArray, setFavouriteCryptoArray] = useState([]);
-
   return (
     <div className="App">
         <Routes>
