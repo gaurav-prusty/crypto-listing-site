@@ -1,24 +1,36 @@
 import React, { useContext, useState } from 'react';
+import { FavouriteArrayContext } from '../contexts/FavouriteArrayContext';
 import { FavouriteContext } from '../contexts/FavouriteContext';
-import { fixedCryptoArray } from '../pages/Home';
+import { MainContext } from '../contexts/MainContext';
 
 function TableItem(props) {
-
   let {favouriteCryptoArray, setFavouriteCryptoArray} = useContext(FavouriteContext);
+  let {cryptoArray} = useContext(MainContext);
+  let {favouriteArray, setFavouriteArray} = useContext(FavouriteArrayContext);
 
-  let [customClass, setCustomClass] = useState('fa fa-star');
-
+  
+  //manage favourite items array
   function setFavourite(rank) {
-    if (customClass === 'fa fa-star') {
-      setCustomClass('fa fa-star checked');
-    } else if (customClass === 'fa fa-star checked') {
-      setCustomClass('fa fa-star');
+    
+
+    if(favouriteCryptoArray.some(coin=> coin.rank === rank)) {
+      favouriteCryptoArray.pop(cryptoArray.find(coin=> coin.rank === rank));        //remove favourite item
+      setFavouriteCryptoArray([...favouriteCryptoArray]);
+      favouriteArray[rank - 1] = false;
+      setFavouriteArray([...favouriteArray]);
+      console.log({removalArray: favouriteArray});
+    } else {
+      favouriteCryptoArray.push(cryptoArray.find(coin=> coin.rank === rank));       //add favourite item
+      setFavouriteCryptoArray([...favouriteCryptoArray]);
+      favouriteArray[rank - 1] = true;
+      setFavouriteArray([...favouriteArray]);
+      console.log({addedArray: favouriteArray});
     }
   }
 
   return (
     <tr>
-      <td> <div onClick={()=> setFavourite(props.rank)} className='td-favourite'> <i className={customClass}></i>{props.rank}</div> </td>
+      <td> <div onClick={()=> setFavourite(props.rank)} className='td-favourite'> <i className={favouriteArray[props.rank - 1] ? 'fa fa-star checked' : 'fa fa-star'}></i>{props.rank}</div> </td>
       <td className='name flex-parent'> <img className='crypto-icon' src={props.icon} /> {props.name}</td>
       <td>${parseFloat(props.price).toFixed(2)}</td>
       <td>${(Math.abs(props.marketCap) / 1e9).toFixed(2)} B</td>

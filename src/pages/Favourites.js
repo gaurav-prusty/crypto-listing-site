@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Navbar from '../components/Navbar';
+import TableItem from '../components/TableItem';
+import { FavouriteContext } from '../contexts/FavouriteContext';
 
 function Favourites() {
+
+    let {favouriteCryptoArray, setFavouriteCryptoArray} = useContext(FavouriteContext);
 
     
     return (
@@ -22,6 +26,9 @@ function Favourites() {
                         <th>PRICE CHANGE(1w)</th>
                     </tr>
                 </thead>
+                <tbody>
+                    {favouriteCryptoArray.map((coin, index)=> <TableItem key={index} id={index} rank={coin.rank} icon={coin.icon} name={coin.name} price={coin.price} marketCap={coin.marketCap} volume={coin.volume} totalSupply={coin.totalSupply} priceChange1h={coin.priceChange1h} priceChange1d={coin.priceChange1d} priceChange1w={coin.priceChange1w} />)}
+                </tbody>
             </table>
 
             

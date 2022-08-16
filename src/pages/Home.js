@@ -1,35 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import axios from 'axios';
 import TableItem from '../components/TableItem';
-
-
-export let fixedCryptoArray = [];
+import { MainContext } from '../contexts/MainContext';
+import { FavouriteArrayContext } from '../contexts/FavouriteArrayContext';
 
 function Home() {
-
   const cryptoUrl = `https://api.coinstats.app/public/v1/coins?skip=0&limit=30&currency=USD`;
 
+  let {cryptoArray, setCryptoArray} = useContext(MainContext);
+  let {setFavouriteArray} = useContext(FavouriteArrayContext);
   
-
-  let [cryptoArray, setCryptoArray] = useState([]);
   let [sortOrder, setSortOrder] = useState('ASC');
   let [customClass, setCustomClass] = useState('');
   let [displaySortIcon, setDisplaySortIcon] = useState(Array(9).fill('none'));
 
   let headEnum = {'rank': 0, 'name': 1, 'price': 2, 'marketCap': 3, 'volume': 4, 'totalSupply': 5, 'priceChange1h': 6, 'priceChange1d': 7, 'priceChange1w': 8};
 
+  //fetch Cryptocurrency Data!
   function fetchCryptoData(url) {
     axios.get(url)
     .then(res=> {
-        fixedCryptoArray = res.data.coins;
         setCryptoArray(res.data.coins);
     })
   }
 
   useEffect(()=> {
     fetchCryptoData(cryptoUrl);
+    console.log('Data Fetched!');
     }, []);
+
+    
 
   function sortByKey(array, key) {
     return array.sort((a, b)=>
@@ -51,11 +52,14 @@ function Home() {
       setCryptoArray(sortedCryptoArray);
       setSortOrder('DSC');
     } else if (sortOrder === 'DSC') {
-      setCustomClass("fa-solid fa-sort-up")
+      setCustomClass("fa-solid fa-sort-up");
       var sortedCryptoArray = [...sortByKey(cryptoArray, key).reverse()];
       setCryptoArray(sortedCryptoArray);
       setSortOrder('ASC');
     }
+
+    console.log({sortedArray: cryptoArray});
+    
   }
 
     return (

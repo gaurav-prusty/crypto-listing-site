@@ -127,3 +127,8 @@ tbody tr {
 div i {
   margin-right: 0.5rem;
 }
+
+td div {
+  user-select: none;
+  cursor: pointer;
+}
