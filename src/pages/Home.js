@@ -25,7 +25,11 @@ function Home() {
 
   useEffect(()=> {
     fetchCryptoData(cryptoUrl);
-    });
+    console.log('Data Fetched!');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // The comment on :30 is to avoid eslint useEffect dependency array warning
 
     
 
@@ -42,12 +46,10 @@ function Home() {
     var temp = Array(9).fill('none');
     temp[headEnum[key]] = 'block';
     setDisplaySortIcon([...temp]);
-  
-    var sortedCryptoArray = sortByKey(cryptoArray, key);
 
+    var sortedCryptoArray = sortByKey(cryptoArray, key);
     if (sortOrder === 'ASC') {
       setCustomClass("fa-solid fa-sort-down");
-      
       setCryptoArray([...sortedCryptoArray]);
       setSortOrder('DSC');
     } else if (sortOrder === 'DSC') {
@@ -55,6 +57,9 @@ function Home() {
       setCryptoArray([...sortedCryptoArray.reverse()]);
       setSortOrder('ASC');
     }
+
+    console.log({sortedArray: cryptoArray});
+    
   }
 
     return (
