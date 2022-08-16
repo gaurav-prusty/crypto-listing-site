@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { FavouriteArrayContext } from '../contexts/FavouriteArrayContext';
 import { FavouriteContext } from '../contexts/FavouriteContext';
 import { MainContext } from '../contexts/MainContext';
@@ -14,7 +14,10 @@ function TableItem(props) {
     
 
     if(favouriteCryptoArray.some(coin=> coin.rank === rank)) {
-      favouriteCryptoArray.pop(cryptoArray.find(coin=> coin.rank === rank));        //remove favourite item
+      
+      let temp = favouriteCryptoArray.find(coin=> coin.rank === rank);              //remove favourite item
+      let index = favouriteCryptoArray.indexOf(temp);
+      favouriteCryptoArray.splice(index, 1);                              
       setFavouriteCryptoArray([...favouriteCryptoArray]);
       favouriteArray[rank - 1] = false;
       setFavouriteArray([...favouriteArray]);
@@ -31,7 +34,7 @@ function TableItem(props) {
   return (
     <tr>
       <td> <div onClick={()=> setFavourite(props.rank)} className='td-favourite'> <i className={favouriteArray[props.rank - 1] ? 'fa fa-star checked' : 'fa fa-star'}></i>{props.rank}</div> </td>
-      <td className='name flex-parent'> <img className='crypto-icon' src={props.icon} /> {props.name}</td>
+      <td className='name flex-parent'> <img className='crypto-icon' src={props.icon} alt='crypto-icon'/> {props.name}</td>
       <td>${parseFloat(props.price).toFixed(2)}</td>
       <td>${(Math.abs(props.marketCap) / 1e9).toFixed(2)} B</td>
       <td>${(Math.abs(props.volume) / 1e9).toFixed(2)} B</td>

@@ -3,13 +3,11 @@ import Navbar from '../components/Navbar';
 import axios from 'axios';
 import TableItem from '../components/TableItem';
 import { MainContext } from '../contexts/MainContext';
-import { FavouriteArrayContext } from '../contexts/FavouriteArrayContext';
 
 function Home() {
   const cryptoUrl = `https://api.coinstats.app/public/v1/coins?skip=0&limit=30&currency=USD`;
 
   let {cryptoArray, setCryptoArray} = useContext(MainContext);
-  let {setFavouriteArray} = useContext(FavouriteArrayContext);
   
   let [sortOrder, setSortOrder] = useState('ASC');
   let [customClass, setCustomClass] = useState('');
@@ -27,8 +25,7 @@ function Home() {
 
   useEffect(()=> {
     fetchCryptoData(cryptoUrl);
-    console.log('Data Fetched!');
-    }, []);
+    });
 
     
 
@@ -45,21 +42,19 @@ function Home() {
     var temp = Array(9).fill('none');
     temp[headEnum[key]] = 'block';
     setDisplaySortIcon([...temp]);
+  
+    var sortedCryptoArray = sortByKey(cryptoArray, key);
 
     if (sortOrder === 'ASC') {
       setCustomClass("fa-solid fa-sort-down");
-      var sortedCryptoArray = [...sortByKey(cryptoArray, key)];
-      setCryptoArray(sortedCryptoArray);
+      
+      setCryptoArray([...sortedCryptoArray]);
       setSortOrder('DSC');
     } else if (sortOrder === 'DSC') {
       setCustomClass("fa-solid fa-sort-up");
-      var sortedCryptoArray = [...sortByKey(cryptoArray, key).reverse()];
-      setCryptoArray(sortedCryptoArray);
+      setCryptoArray([...sortedCryptoArray.reverse()]);
       setSortOrder('ASC');
     }
-
-    console.log({sortedArray: cryptoArray});
-    
   }
 
     return (
